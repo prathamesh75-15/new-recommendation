@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Farming Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='organic.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <h2>🌱 Organic Farming Chatbot</h2>
+        
+        <!-- Language Selection Dropdown -->
+        <div class="language-select">
+            <label for="language">Choose Language:</label>
+            <select id="language">
+                <option value="en" selected>English</option>
+                <option value="hi">हिंदी (Hindi)</option>
+                <option value="mr">मराठी (Marathi)</option>
+            </select>
+        </div>
+
+        <div class="chat-box" id="chat-box">
+            <div class="bot-message">Hello! Ask me anything about organic farming. 🌿</div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your question...">
+            <button onclick="sendMessage()">Send</button>
+            <button id="voice-btn">🎤</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to send a message
+        async function sendMessage() {
+            let inputField = document.getElementById("user-input");
+            let chatBox = document.getElementById("chat-box");
+            let userMessage = inputField.value.trim();
+            let selectedLanguage = document.getElementById("language").value;
+    
+            if (userMessage === "") return;
+    
+            chatBox.innerHTML += `<div class="user-message">${userMessage}</div>`;
+            inputField.value = "";
+    
+            let response = await fetch("/chat-message", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: userMessage, language: selectedLanguage })
+            });
+    
+            let data = await response.json();
+            // let formattedResponse = data.response.replace(/\n/g, "<br>");
+
+            // chatBox.innerHTML += `<div class="bot-message">${formattedResponse}</div>`;
+            chatBox.innerHTML += `<div class="bot-message">${data.response}</div>`;
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    
+        // 🎙️ Voice Input Functionality
+        document.getElementById("voice-btn").addEventListener("click", function() {
+            let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            let selectedLanguage = document.getElementById("language").value;
+    
+            // 🗣 Set Speech Recognition Language
+            let langMap = { "en": "en-US", "hi": "hi-IN", "mr": "mr-IN" };
+            recognition.lang = langMap[selectedLanguage] || "en-US";
+    
+            recognition.onstart = function() {
+                document.getElementById("voice-btn").innerText = "🎤 Listening...";
+            };
+    
+            recognition.onspeechend = function() {
+                document.getElementById("voice-btn").innerText = "🎤";
+                recognition.stop();
+            };
+    
+            recognition.onresult = async function(event) {
+                let transcript = event.results[0][0].transcript;
+                
+                // Translate Roman Marathi to Devanagari (For Marathi Only)
+                if (selectedLanguage === "mr") {
+                    transcript = await translateToDevanagari(transcript);
+                }
+    
+                document.getElementById("user-input").value = transcript;
+                sendMessage();
+            };
+    
+            recognition.start();
+        });
+    
+        // 🔄 Function to Translate Romanized Marathi to Devanagari
+        async function translateToDevanagari(text) {
+            let response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=mr&tl=mr&dt=t&q=${encodeURIComponent(text)}`);
+            let data = await response.json();
+            return data[0][0][0]; // Extract translated text
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,172 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Light gray background */
+    color: #343a40; /* Dark gray text */
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    color: #28a745; /* Green header color */
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+p {
+    margin-bottom: 15px;
+    color: #060606; /* Slightly darker gray text */
+}
+
+a {
+    text-decoration: none;
+    color: #007bff; /* Blue links */
+}
+
+a:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+/* Header Styles */
+header {
+    background-color: #28a745; /* Green header background */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    color: white;
+}
+
+/* Section Styles */
+section {
+    padding: 30px;
+    background-color: white;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+.plan {
+    padding: 20px;
+    background-color: #f1f8e9; /* Light green background */
+    border: 1px solid #c8e6c9; /* Lighter green border */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.plan:hover {
+    transform: translateY(-5px);
+}
+
+.plan h3 {
+    margin-top: 0;
+    color: #1e7e34; /* Darker green for plan titles */
+}
+
+.eligibility ul {
+    list-style: none;
+    padding: 0;
+}
+
+.eligibility li {
+    margin-bottom: 10px;
+}
+
+.eligibility li::before {
+    content: "\f00c"; /* Font Awesome checkmark icon */
+    font-family: FontAwesome;
+    color: #28a745; /* Green checkmark */
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.claim-process ol, .steps ol {
+    list-style: decimal;
+    padding: 0;
+}
+
+.claim-process li, .steps li {
+    margin-bottom: 10px;
+}
+
+.testimonials {
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.testimonial {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #c8e6c9; /* Lighter green border */
+    border-radius: 8px;
+    background-color: white;
+}
+
+.testimonial p {
+    margin-bottom: 5px;
+}
+
+.testimonial strong {
+    color: #28a745; /* Green for farmer names */
+}
+
+.contact {
+    background-color: #343a40; /* Dark gray background */
+    color: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+}
+.contact h2{
+    color: rgb(58, 215, 30);
+}
+
+.contact p {
+    margin-bottom: 10px;
+    color: white;
+}
+
+footer {
+    background-color: #343a40; /* Dark gray background */
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+}
+footer p{
+    color: rgb(58, 215, 30);
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .plans {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+    }
+}

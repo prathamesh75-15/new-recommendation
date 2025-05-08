@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Service Recommendation</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="./">Home</a>
+            <a href="/services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Service Recommendation Form for Farmers</h1>
+        
+        <!-- Input Form (Initially Visible) -->
+        <form id="queryForm" method="POST" action="/recommendation">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="farmer_issues">Farmer Issues:</label>
+                    <input type="text" id="farmer_issues" name="farmer_issues" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="soil_type">Soil Type:</label>
+                    <input type="text" id="soil_type" name="soil_type">
+                </div>
+
+                <div class="form-group">
+                    <label for="irrigation_practices">Irrigation Practices:</label>
+                    <input type="text" id="irrigation_practices" name="irrigation_practices">
+                </div>
+
+                <div class="form-group">
+                    <label for="farm_type">Farm Type:</label>
+                    <input type="text" id="farm_type" name="farm_type">
+                </div>
+
+                <div class="form-group">
+                    <label for="crop_preferences">Crop Preferences:</label>
+                    <input type="text" id="crop_preferences" name="crop_preferences">
+                </div>
+
+                <div class="form-group">
+                    <label for="farm_size">Farm Size (acres):</label>
+                    <input type="number" id="farm_size" name="farm_size" min="0" step="0.1">
+                </div>
+
+                <div class="form-group">
+                    <label for="farming_experience">Farming Experience:</label>
+                    <select id="farming_experience" name="farming_experience">
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Expert</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="education_level">Education Level:</label>
+                    <select id="education_level" name="education_level">
+                        <option>None</option>
+                        <option>Primary</option>
+                        <option>Secondary</option>
+                        <option>Higher Education</option>
+                    </select>
+                </div>
+            </div>
+            <button class="submit-btn" type="submit">Recommend</button>
+        </form>
+
+        <!-- Follow-up Question Section (Initially Hidden) -->
+        <div id="followUpContainer" style="display: none;">
+            <p id="followUpQuestion"></p>
+            <form id="followUpForm" method="POST" action="/recommendation">
+                <input type="hidden" name="previous_query" id="previousQuery">
+                <input type="text" name="followup_answer" id="followupAnswer" required>
+                <button class="submit-btn" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+        // Check if a follow-up question is passed from Flask
+        var followupQuestion = "{{ followup_question | default('', true) }}";
+        followupQuestion = decodeHtml(followupQuestion);
+
+        if (followupQuestion.trim() !== "") {
+            document.getElementById("queryForm").style.display = "none"; // Hide original form
+            document.getElementById("followUpContainer").style.display = "block"; // Show follow-up form
+            document.getElementById("followUpQuestion").textContent = followupQuestion;
+        }
+    </script>
+</body>
+</html>

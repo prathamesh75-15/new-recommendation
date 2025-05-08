@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('/static/ChatGPT Image Apr 2, 2025, 07_35_13 PM.png') no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-resultpage {
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .result-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        /* Service Cards */
+        .service-box {
+            background: rgb(255, 251, 251);
+            border-radius: 12px;
+            padding: 15px;
+            width: 300px;
+            height: 350px;
+            margin: 15px;
+            box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .service-box:hover {
+            transform: scale(1.05);
+        }
+
+        .service-box img {
+            width: 250px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            padding-top: 23px;
+        }
+
+        .service-box h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .service-description {
+            font-size: 14px;
+            color: rgb(11, 10, 10);
+            text-align: center;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 80px;
+        }
+
+        .btn:hover {
+            background: #218838;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .go-back-button {
+            position: absolute;
+            left: 20px;
+            border: none;
+            padding: 7px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .go-back-button:hover {
+            background: #218838;
+        }
+
+        /* AI-Based Insights */
+        .structured-response {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            width: 70%;
+            margin: 20px auto;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            animation: fadeIn 0.5s ease-in-out;
+            border-left: 5px solid #3498db; /* Blue border for AI responses */
+        }
+
+        .structured-response h2 {
+            font-size: 20px;
+            color: #2980b9;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .structured-response p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            padding: 15px;
+            background: rgba(240, 240, 240, 0.9);
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        /* Pricing & Government Schemes */
+        .pricing-data {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            width: 70%;
+            margin: 20px auto;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            animation: fadeIn 0.5s ease-in-out;
+            border-left: 5px solid #f39c12; /* Orange border for pricing */
+        }
+
+        .pricing-data h2 {
+            font-size: 20px;
+            color: #d35400;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .pricing-data p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            padding: 15px;
+            background: rgba(240, 240, 240, 0.9);
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .pricing-data ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .pricing-data ul li {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .pricing-data strong {
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        .pricing-data .cost-estimation {
+            color: #d35400;
+            font-weight: bold;
+            background: rgba(255, 231, 181, 0.7);
+            padding: 5px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        /* Container Styling
+        drop down styling */
+        /* .translate-button-container {
+            display: inline-block;
+            position: relative;
+            padding: 10px;
+            background: linear-gradient(135deg, #f0f4f8, #e2ecf3);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        } */
+
+        /* .translate-button-container:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        } */
+
+        /* Select Box Styling */
+        #language-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #ffffff;
+            color: #333;
+            border: 2px solid #d0d7de;
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+            width: 180px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="gray" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px 16px;
+        }
+
+        #language-select:hover {
+            border-color: #9db4c0;
+            background-color: #f9fbfc;
+        }
+
+        #language-select:focus {
+            border-color: #478bff;
+            box-shadow: 0 0 0 3px rgba(71, 139, 255, 0.2);
+        }
+
+        /* Optional: Style for Options (note: limited control across browsers) */
+        #language-select option {
+            font-weight: 400;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar-resultpage">
+        <button class="go-back-button" onclick="goback()">Go Back</button>
+        Recommendation Services For Farmers
+    </div>
+    <div class="result-container">
+        {% if recommendations %}
+            {% for service in recommendations %}
+                <div class="service-box">
+                    <img src="{{ service_images[service] }}" alt="{{ service }}">
+                    <p class="display-service-name">{{ service }}</p>
+                    <p class="service-description">{{ services[service] }}</p>
+                    <button class="btn" onclick="viewDetails('{{ service }}')">View</button>
+                </div>
+            {% endfor %}
+        {% elif structured_response %}
+        <!-- <div id="google_translate_element" style="float: right; margin-bottom: 10px;"></div> -->
+        <div class="translate-button-container" id="language-dropdown" >
+            <select id="language-select" onchange="translateResponse()">
+                
+                <option value="en">English</option>
+                <option value="mr">Marathi</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+                <option value="te">Telugu</option>
+               
+            </select>
+            <!-- <button class="btn translate-btn" onclick="translateResponse()">Translate</button> -->
+            <div class="structured-response">
+                <h2>AI-Based Insights</h2>
+                <p><strong>Query:</strong> {{ structured_response.structured_response.query|safe}}</p>
+                <p><strong>AI Initial Response:</strong> {{ structured_response.structured_response.gemini_initial_response|safe }}</p>
+                <p><strong>search_results:</strong> {{ structured_response.structured_response.search_results|safe }}</p>
+                <p><strong>Suggested Action:</strong> {{ structured_response.structured_response.suggested_action|safe}}</p>
+            </div>
+        
+            {% if pricing_data and 'schemes' in pricing_data %}
+            <div class="pricing-data">
+                <h2>Available Schemes</h2>
+                <ul>
+                    {% for scheme in pricing_data.schemes %}
+                        <li>
+                            <strong>{{ scheme.name }}</strong> <br>
+                            <em>{{ scheme.description }}</em> <br>
+                            <b>Eligibility:</b> {{ scheme.eligibility }} <br>
+                            <b>Financial Support:</b> {{ scheme.financial_support }} <br>
+                            <!-- <b>link:</b> {{ scheme.application_link }} <br> -->
+                        </li>
+                        
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% else %}
+        <p class="error">No recommendations found.</p>
+    {% endif %}
+    </div>
+    
+   
+<script>
+    function goback() {
+        window.location.href = "./";
+    }
+    function viewDetails(service) {
+        window.location.href = "/services/" + service.replace(/\s+/g, '_');
+    }
+
+</script>
+<!-- <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,mr', // English, Hindi, Marathi
+        layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+      }, 'google_translate_element');
+    }
+  </script>
+  
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> -->
+  <script>
+     function translateResponse() {
+        // Get selected language from the dropdown
+        const selectedLanguage = document.getElementById("language-select").value;
+        
+        console.log("Selected Language Code:", selectedLanguage);  // Debugging
+    
+        // Translate structured response and pricing schemes
+        translateStructuredResponse(selectedLanguage);
+        // translatePricingSchemes
+        translatePricingSchemes(selectedLanguage);
+        }
+    
+    // Function to translate structured response
+    function translateStructuredResponse(selectedLanguage) {
+            // let selectedLanguage = document.getElementById("language-select").value;
+            
+            // Get existing structured response text
+            let queryText = document.querySelector(".structured-response p:nth-child(2)").textContent.replace("Query: ", "").trim();
+            let aiResponseText = document.querySelector(".structured-response p:nth-child(3)").textContent.replace("AI Initial Response: ", "").trim();
+            let searchResultsText = document.querySelector(".structured-response p:nth-child(4)").textContent.replace("search_results: ", "").trim();
+            let suggestedActionText = document.querySelector(".structured-response p:nth-child(5)").textContent.replace("Suggested Action: ", "").trim();
+            
+    
+            console.log(queryText)
+            console.log(aiResponseText)
+            console.log(searchResultsText)
+            console.log(suggestedActionText)
+            // console.log(aiResponseText)
+    
+            let requestData = {
+                language: selectedLanguage,
+                query: queryText,
+                ai_response: aiResponseText,
+                search_results: searchResultsText,
+                suggested_action: suggestedActionText
+            };
+    
+            fetch('/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector(".structured-response p:nth-child(2)").innerHTML = `<strong>Query:</strong> ${data.translated.query}`;
+                    document.querySelector(".structured-response p:nth-child(3)").innerHTML = `<strong>AI Initial Response:</strong> ${data.translated.ai_response}`;
+                    document.querySelector(".structured-response p:nth-child(4)").innerHTML = `<strong>search_results:</strong> ${data.translated.search_results}`;
+                    document.querySelector(".structured-response p:nth-child(5)").innerHTML = `<strong>Suggested Action:</strong> ${data.translated.suggested_action}`;
+                } else {
+                    alert("Translation failed. Please try again.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    
+    //     function translatePricingSchemes(selectedLanguage) {
+    //     let schemes = [];
+    //     document.querySelectorAll(".pricing-data ul li").forEach((item) => {
+    //         let scheme = {
+    //             name: item.querySelector("strong").textContent.trim(),
+    //             description: item.querySelector("em").textContent.trim(),
+    //             eligibility: item.innerHTML.match(/<b>Eligibility:<\/b> (.*?) <br>/)?.[1]?.trim() || "",
+    //             financial_support: item.innerHTML.match(/<b>Financial Support:<\/b> (.*?) <br>/)?.[1]?.trim() || ""
+    //         };
+    //         schemes.push(scheme);
+    //     });
+
+    //     let requestData = { language: selectedLanguage, schemes: schemes };
+    //     console.log(schemes)
+    //     console.log(requestData)
+
+    //     fetch('/translate_pricing', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(requestData)
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.success) {
+    //             console.log("Received Translated Schemes:", data.translated.schemes); 
+    //             let translatedSchemes = data.translated.schemes;
+    //             let schemeItems = document.querySelectorAll(".pricing-data ul li");
+    //             translatedSchemes.forEach((scheme, index) => {
+    //                 schemeItems[index].innerHTML = `
+    //                     <strong>${scheme.name}</strong> <br>
+    //                     <em>${scheme.description}</em> <br>
+    //                     <b>Eligibility:</b> ${scheme.eligibility} <br>
+    //                     <b>Financial Support:</b> ${scheme.financial_support} <br>
+    //                     <hr>
+    //                 `;
+    //             });
+    //         } else {
+    //             alert("Pricing translation failed. Please try again.");
+    //         }
+    //     })
+    //     .catch(error => console.error("Error:", error));
+    // }
+
+    function translatePricingSchemes(selectedLanguage) {
+    let schemes = [];
+
+    document.querySelectorAll(".pricing-data ul li").forEach((item) => {
+        let scheme = {
+            name: item.querySelector("strong")?.textContent.trim() || "",
+            description: item.querySelector("em")?.textContent.trim() || "",
+            eligibility: item.innerHTML.match(/<b>Eligibility:<\/b> (.*?) <br>/)?.[1]?.trim() || "",
+            financial_support: item.innerHTML.match(/<b>Financial Support:<\/b> (.*?) <br>/)?.[1]?.trim() || ""
+        };
+        schemes.push(scheme);
+    });
+
+    let requestData = { language: selectedLanguage, schemes: schemes };
+    console.log("Sending Schemes:", requestData);
+
+    fetch('/translate_pricing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok || !response.headers.get("content-type")?.includes("application/json")) {
+            throw new Error("Server returned non-JSON or failed response");
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            console.log("Translated Schemes:", data.translated.schemes);
+            let schemeItems = document.querySelectorAll(".pricing-data ul li");
+            data.translated.schemes.forEach((scheme, index) => {
+                schemeItems[index].innerHTML = `
+                    <strong>${scheme.name}</strong> <br>
+                    <em>${scheme.description}</em> <br>
+                    <b>Eligibility:</b> ${scheme.eligibility} <br>
+                    <b>Financial Support:</b> ${scheme.financial_support} <br>
+                    <hr>
+                `;
+            });
+        } else {
+            console.error("Server Error:", data.error);
+            alert("Translation failed: " + data.error);
+        }
+    })
+    .catch(error => {
+        console.error("Frontend Error:", error);
+        alert("Something went wrong: " + error.message);
+    });
+}
+  </script>
+ 
+</body>
+</html>

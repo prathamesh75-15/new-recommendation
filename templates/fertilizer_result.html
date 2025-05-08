@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fertilizer AI Result</title>
+  <link rel="stylesheet" href="/static/fertilizer.css">
+</head>
+<body>
+  <h2>🧠 Fertilizer AI Recommendation</h2>
+
+  <!-- Add id="translatable" so JS can update it -->
+  <div id="translatable" class="result-container" style="white-space: pre-wrap;">
+    {{ result | safe }}
+  </div>
+  <!-- Button to show links -->
+<button class="links-btn" onclick="showLinks()">🌿 Give me Fertilizer Links</button>
+
+<!-- Hidden fertilizer links container -->
+<div id="fertilizer-links-container" style="display: none;">
+  {% if fertilizer_links %}
+    <h3>🛒 Buy Fertilizers Online:</h3>
+    <div class="links-container">
+      {% for fert_name, links in fertilizer_links.items() %}
+        <div class="fertilizer-links">
+          <h4>{{ fert_name }}</h4>
+          <ul>
+            {% for link in links %}
+              <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+  <br><br>
+
+  <div class="back-button-container">
+    <a href="/fertilizer_rec">
+      <button>🔙 Back to Form</button>  
+    </a>
+    <select id="language-select" >
+      <option value="">Select your option</option>
+      <option value="en">english</option>
+      <option value="mr">Marathi</option>
+      <option value="hi">Hindi</option>
+      <option value="ta">Tamil</option>
+      <option value="te">Telugu</option>
+      <option value="ka">Kannada</option>
+      
+      
+    </select>
+  </div>
+
+  <!-- Language selector -->
+  <!-- <select id="language-select">
+    <option value="ka">Kannada</option>
+    <option value="hi">Hindi</option>
+    <option value="mr">Marathi</option>
+  </select> -->
+
+  <!-- JavaScript translation handler -->
+  <script>
+    document.getElementById("language-select").addEventListener("change", function () {
+      const lang = this.value;
+      const contentDiv = document.getElementById("translatable");
+      const text = contentDiv.innerText;
+
+      fetch("/translate_fertilizer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          text: text,
+          lang: lang
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        contentDiv.innerText = data.translated_text;
+      });
+    });
+  </script>
+  <script>
+    function showLinks() {
+      const container = document.getElementById("fertilizer-links-container");
+      if( container.style.display === "block") {
+        container.style.display = "none";
+      } else {
+        container.style.display = "block";
+      }
+     
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <link rel="stylesheet" href="/static/services.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Our Services</h1>
+    </div>
+        <div id="services-container">
+            Service cards will be dynamically added here 
+        </div>
+    
+    <!-- <body>
+        <div class="container">
+            <h1>Our Services</h1>
+            <div class="carousel">
+                <button id="prev" class="arrow" onclick="movePrev()">&#10094;</button>
+                <div id="services-container"></div>
+                <button id="next" class="arrow" onclick="moveNext()">&#10095;</button>
+            </div> -->
+      
+ 
+    
+    <script>
+        async function fetchServices() {
+            const response = await fetch('/api/services');
+            const services = await response.json();
+            const container = document.getElementById('services-container');
+            container.innerHTML = '';
+
+            services.forEach(service => {
+                const card = document.createElement('div');
+                card.className = "card";
+                card.innerHTML = `
+                    <img src="${service.image}" alt=${service.name} class="service-image">
+                    <h2>${service.name}</h2>
+                    <p>${service.description}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        fetchServices();
+    </script>
+    <!-- <script>
+        let index = 0;
+    
+        async function fetchServices() {
+            const response = await fetch('/api/services');
+            const services = await response.json();
+            const container = document.getElementById('services-container');
+            container.innerHTML = '';
+    
+            services.forEach(service => {
+                const card = document.createElement('div');
+                card.className = "card";
+                card.innerHTML = `
+                    <img src="${service.image}" alt="${service.name}" class="service-image">
+                    <h2>${service.name}</h2>
+                    <p>${service.description}</p>
+                `;
+                container.appendChild(card);
+            });
+    
+            updateCardStyles();
+            startAutoScroll();
+        }
+    
+        function updateCardStyles() {
+            const cards = document.querySelectorAll('.card');
+    
+            cards.forEach((card, i) => {
+                card.classList.remove('active', 'blur');  // Reset previous styles
+                if (i === index + 1 || i === index + 2) {
+                    card.classList.add('active'); // Middle two zoomed
+                } else {
+                    card.classList.add('blur'); // Side ones blurred
+                }
+            });
+        }
+    
+        function moveNext() {
+            const container = document.getElementById('services-container');
+            const totalCards = document.querySelectorAll('.card').length;
+    
+            if (index < totalCards - 4) {
+                index++;
+            } else {
+                index = 0;
+            }
+    
+            container.style.transform = `translateX(-${index * 270}px)`;
+            updateCardStyles();
+        }
+    
+        function movePrev() {
+            if (index > 0) {
+                index--;
+            } else {
+                index = document.querySelectorAll('.card').length - 4;
+            }
+    
+            const container = document.getElementById('services-container');
+            container.style.transform = `translateX(-${index * 270}px)`;
+            updateCardStyles();
+        }
+    
+        function startAutoScroll() {
+            setInterval(() => {
+                moveNext();
+            }, 5000); // Auto-scroll every 5 seconds
+        }
+    
+        fetchServices();
+    </script>
+     -->
+    
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fertilizer Advisor AI</title>
+  <link rel="stylesheet" href="\static\fertilizer.css">
+</head>
+<body>
+  <h2>🌾 Smart Fertilizer Recommender</h2>
+<form action="/fertilizer-calculator" method="POST">
+  <label>Crop:</label><br>
+  <input type="text" name="crop" required><br><br>
+
+  <label>Budget (₹):</label><br>
+  <input type="number" name="amount" required><br><br>
+
+  <label>Soil Type (Optional):</label><br>
+  <input type="text" name="soil"><br><br>
+
+  <label>Land Area (Optional):</label><br>
+  <input type="text" name="land_area"><br><br>
+
+  <label>Fertilizer Type (Optional):</label><br>
+  <select name="fertilizer_type">
+    <option value="any">Any</option>
+    <option value="organic">Organic</option>
+    <option value="chemical">Chemical</option>
+  </select><br><br>
+
+  <button type="submit">Get AI Recommendation</button>
+</form>
+</body>
+</html>

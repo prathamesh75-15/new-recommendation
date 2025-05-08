@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government-backed PMFBY</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Apply for Government-backed PMFBY</h1>
+        <p>Secure your crops with Pradhan Mantri Fasal Bima Yojana.</p>
+    </header>
+    
+    <section class="form-container">
+        <h2>Insurance Application Form</h2>
+        <form action="pmfby_dashboard.html" method="POST">
+            <input type="text" name="fullname" placeholder="Full Name" required>
+            <input type="text" name="aadhaar" placeholder="Aadhaar Number" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="location" placeholder="Farm Location" required>
+            <input type="number" name="land_area" placeholder="Land Area (in acres)" required>
+            <button type="submit" class="btn">Submit Application</button>
+        </form>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 AgriSecure. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

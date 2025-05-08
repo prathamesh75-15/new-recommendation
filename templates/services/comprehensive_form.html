@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Insurance</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .form-section {
+            background-color: white;
+            padding: 20px;
+            margin: auto;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #28a745;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Basic Crop Protection Form -->
+    <section class="form-section">
+        <h2>Comprehensive Land</h2>
+        <form action="/submit_comprehensive_crop_land" method="POST">
+            <label for="name_basic">Full Name:</label>
+            <input type="text" id="name_basic" name="name" required>
+
+            <label for="email_basic">Email:</label>
+            <input type="email" id="email_basic" name="email" required>
+
+            <label for="phone_basic">Phone Number:</label>  
+            <input type="tel" id="phone_basic" name="phone" required>
+
+            <label for="acreage_basic">Farm Size (in acres):</label>
+            <input type="number" id="acreage_basic" name="acreage" min="1" required>
+
+            <label for="crop_type_basic">Crop Type:</label>
+            <input type="text" id="crop_type_basic" name="crop_type" required>
+        </form>
+    </section>
+
+    <!-- Comprehensive Insurance Form -->
+    <section class="form-section">
+        <h2>Comprehensive Land & Crop Insurance</h2>
+        <form action="/submit_comprehensive" method="POST">
+            <label for="land_ownership">Do you own the land?</label>
+            <select id="land_ownership" name="land_ownership">
+                <option value="owned">Owned</option>
+                <option value="leased">Leased</option>
+            </select>
+
+            <button type="submit">Apply Now</button>
+        </form>
+    </section>
+
+</body>
+</html>
